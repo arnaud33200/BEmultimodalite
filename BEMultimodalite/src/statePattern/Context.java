@@ -12,5 +12,5 @@ package statePattern;
 public interface Context {
 
    public void setState(State state);
-   public State getTheState();
+   public State getDaState();
 }
