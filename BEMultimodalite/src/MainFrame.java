@@ -1,3 +1,8 @@
+
+import statePattern.Context;
+import statePattern.InitState;
+import statePattern.State;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,13 +12,16 @@
  *
  * @author ladoucar
  */
-public class MainFrame extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame implements Context {
 
-    /**
-     * Creates new form MainFrame
-     */
+    private State state;
+    private Context context;
+    
     public MainFrame() {
         initComponents();
+        
+        state = new InitState();
+        context = this;
     }
 
     /**
@@ -78,4 +86,15 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    @Override
+    public State getDaState() {
+        return state;
+    }
+
 }
