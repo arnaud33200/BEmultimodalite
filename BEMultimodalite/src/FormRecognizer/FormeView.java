@@ -38,7 +38,7 @@ public class FormeView extends javax.swing.JPanel {
         this.highlight = highlight;
         if (highlight) {
             setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 204, 0), 4, true));
-            jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
+            jLabel1.setFont(new java.awt.Font("Tahoma", 1, 13));
             jLabel1.setForeground(new java.awt.Color(153, 204, 0));
         } else {
              setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));

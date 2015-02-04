@@ -86,7 +86,7 @@ public class Gesture {
         int distC = 0;
         int distR = 0;
         int lenght = Math.min(N, step4points.size());
-        System.out.println("SIZE = " + points.size() + " | " + step1points.size() + " - " + step2points.size() + " - " + step3points.size() + " - " + step4points.size());
+        //System.out.println("SIZE = " + points.size() + " | " + step1points.size() + " - " + step2points.size() + " - " + step3points.size() + " - " + step4points.size());
         for (int i = 0; i < lenght; ++i) {
             PointGeste pc = circle.get(i);
             PointGeste pr = rectangle.get(i);
@@ -94,7 +94,7 @@ public class Gesture {
             distC += pc.distance(p2);
             distR += pr.distance(p2);
         }
-        System.out.println("Distance : c=" + distC + " / r=" + distR);
+       // System.out.println("Distance : c=" + distC + " / r=" + distR);
         if (distC < distR && distC < 5000) {
             forme = SHAPECIRCLE;
         } else if (distR < distC && distR < 5000) {
@@ -111,7 +111,7 @@ public class Gesture {
                 distC += pc.distance(p2);
                 distR += pr.distance(p2);
             }
-            System.out.println("Distance : c=" + distC + " / r=" + distR);
+           // System.out.println("Distance : c=" + distC + " / r=" + distR);
             if (distC < distR && distC < 5000) {
                 forme = SHAPECIRCLE;
             } else if (distR < distC && distR < 5000) {
@@ -173,7 +173,7 @@ public class Gesture {
 
     private void applyStep3() {
         Rectangle B = BoundingBox();
-        System.out.println("Rectangle : " + B.height + " / " + B.width + "/");
+       // System.out.println("Rectangle : " + B.height + " / " + B.width + "/");
         for (PointGeste p : step2points) {
             double qx = (double) (p.x * (SquareSize / B.getWidth()));
             double qy = (double) (p.y * (SquareSize / B.getHeight()));
@@ -183,7 +183,7 @@ public class Gesture {
 
     private void applyStep4() {
         PointGeste c = Centroid(step3points);
-        System.out.println("Step4 : centre = " + c.x + " : " + c.y);
+      //  System.out.println("Step4 : centre = " + c.x + " : " + c.y);
         for (PointGeste p : step3points) {
             double qx = (double) (p.x - c.x + 150);
             double qy = (double) (p.y - c.y + 150);

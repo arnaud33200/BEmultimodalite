@@ -47,8 +47,14 @@
   </Layout>
   <SubComponents>
     <Component class="FormRecognizer.FormeView" name="formeView1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ellispe"/>
+      </Properties>
     </Component>
     <Component class="FormRecognizer.FormeView" name="formeView2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Rectangle"/>
+      </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
@@ -63,6 +69,11 @@
           </Border>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="jPanel1MouseDragged"/>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel1MousePressed"/>
+        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel1MouseReleased"/>
+      </Events>
 
       <Layout>
         <DimensionLayout dim="0">

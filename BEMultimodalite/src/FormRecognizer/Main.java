@@ -85,18 +85,6 @@ public class Main extends javax.swing.JFrame{
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g); //To change body of generated methods, choose Tools | Templates.
-        /*if (myGesture != null) {
-            g.setColor(Color.BLUE);
-            ArrayList<Point> points = myGesture.getPoints();
-            for (Point p : points) {
-                g.fillOval(p.x, p.y, 3, 3);
-            }
-        }*/
-    }
     
     
 
