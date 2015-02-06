@@ -13,4 +13,11 @@ public interface Context {
 
    public void setState(State state);
    public State getDaState();
+   public void startTimerIci();
+
+    public void updateCouleur();
+
+    public void dessinerForme();
+
+    public void updatePosition();
 }

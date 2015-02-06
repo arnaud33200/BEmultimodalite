@@ -7,56 +7,53 @@ package statePattern;
 
 /**
  *
- * @author fornervi
+ * @author ladoucar
  */
-public class CreerState implements State {
-    
-    public String toString(){
-      return "Creer State";
-   }
+public class IciState implements State {
 
     @Override
     public void doActionDessinForme(Context context) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void doActionVoixRougeBleu(Context context) {
-
-    }
-
-    @Override
-    public void doActionVoixDeCetteCouleur(Context context) {
-        context.setState(new DeCetteCouleurState());
-    }
-
-    @Override
-    public void doActionVoixIci(Context context) {
-        context.setState(new IciState());
-    }
-
-    @Override
-    public void doActionClick(Context context) {
-    }
-
-    @Override
-    public void doActionSelection(Context context) {
-
-    }
-
-    @Override
-    public void doActionTimerCreer(Context context) {
-        context.setState(new InitState());
         
     }
 
     @Override
+    public void doActionVoixDeCetteCouleur(Context context) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void doActionVoixIci(Context context) {
+    }
+
+    @Override
+    public void doActionClick(Context context) {
+        context.setState(new WaitState());
+        context.updatePosition();
+    }
+
+    @Override
+    public void doActionSelection(Context context) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void doActionTimerCreer(Context context) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public void doActionTimerIci(Context context) {
-        context.setState(new IciState());
+        context.setState(new InitState());
     }
 
     @Override
     public void doActionTimerWait(Context context) {
-
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
