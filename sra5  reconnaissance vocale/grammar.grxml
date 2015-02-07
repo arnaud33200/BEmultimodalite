@@ -17,6 +17,8 @@
 	  <item><ruleref uri="#peindre"/></item>
       <item><ruleref uri="#initialiser"/></item>
 	  <item><ruleref uri="#centrer"/></item>
+      <item><ruleref uri="#peindreSelection"/></item>
+    <item><ruleref uri="#ici"/></item>
     </one-of>          
     <tag>out = rules.latest().text;</tag>
     <ruleref special="GARBAGE" />
@@ -24,7 +26,17 @@
        
    <rule id="deplacement">
     <item>deplacer <ruleref uri="#position"/></item>
-  </rule> 
+  </rule>
+
+  <rule id="peindreSelection">
+    <item>de cette couleur</item>
+    <tag>out.text  = "Action:de cette couleur"</tag>
+  </rule>
+
+  <rule id="ici">
+    <item>ici</item>
+    <tag>out.text  = "Action:ici"</tag>
+  </rule>
   
   <rule id="peindre">
     <item>peindre en <ruleref uri="#couleur"/></item>

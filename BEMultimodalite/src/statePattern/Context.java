@@ -22,4 +22,6 @@ public interface Context {
     public void updatePosition();
     
     public void updateForme();
+    
+    public void updateSelectedForme();
 }

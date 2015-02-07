@@ -10,6 +10,10 @@ package statePattern;
  * @author ladoucar
  */
 public class IciState implements State {
+    
+    public String toString(){
+      return "ICI STATE";
+   }
 
     @Override
     public void doActionDessinForme(Context context) {
@@ -32,18 +36,16 @@ public class IciState implements State {
 
     @Override
     public void doActionClick(Context context) {
-        context.setState(new WaitState());
         context.updatePosition();
+        context.setState(new WaitState());
     }
 
     @Override
     public void doActionSelection(Context context) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void doActionTimerCreer(Context context) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -53,7 +55,6 @@ public class IciState implements State {
 
     @Override
     public void doActionTimerWait(Context context) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

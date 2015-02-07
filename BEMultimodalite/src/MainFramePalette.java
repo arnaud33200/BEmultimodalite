@@ -6,6 +6,7 @@ import fr.dgac.ivy.IvyMessageListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import statePattern.Context;
+import statePattern.DeCetteCouleurState;
 import statePattern.InitState;
 import statePattern.State;
 
@@ -37,6 +38,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
     private String formeUpdate;
     private String colorUpdate;
     private String selectedFormUpdate;
+    
 
     public MainFramePalette() throws IvyException {
         initComponents();
@@ -98,13 +100,35 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
                 context.getDaState().doActionVoixRougeBleu(context);
             }
         });
+        
+        bus.bindMsg("^sra5 Parsed=Action:de cette couleur", new IvyMessageListener() {
+            public void receive(IvyClient client, String[] args) {
+                System.out.println("IVY De cette couleur " + ((args.length > 0) ? args[0] : ""));
+                context.getDaState().doActionVoixDeCetteCouleur(context);
+            }
+        });
+        
+        bus.bindMsg("^sra5 Parsed=Action:ici", new IvyMessageListener() {
+            public void receive(IvyClient client, String[] args) {
+                System.out.println("IVY Ici " + ((args.length > 0) ? args[0] : ""));
+                context.getDaState().doActionVoixIci(context);
+            }
+        });
 
         bus.bindMsg("Palette:ResultatTesterPoint x=(.*) y=(.*) nom=(.*)", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
                 System.out.println("IVY Forme " + ((args.length > 0) ? args[2] : ""));
                 selectedForm = args[2];
-                
                 context.getDaState().doActionSelection(context);
+            }
+        });
+        
+        bus.bindMsg("Palette:Info nom=(.*) x=(.*) y=(.*) longueur=(.*) hauteur=(.*) couleurFond=(.*) couleurContour=(.*)", new IvyMessageListener() {
+            public void receive(IvyClient client, String[] args) {
+                colorUpdate = args[5];
+                System.out.println("IVY Selected couleur " + ((args.length > 0) ? args[5] : ""));
+                context.dessinerForme();
+                context.setState(new InitState());
             }
         });
 
@@ -112,7 +136,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
         state = new InitState();
         context = this;
-    }
+    } 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -272,8 +296,23 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
     @Override
     public void updateCouleur() {
-        this.colorUpdate = color;
+        switch(context.getDaState().toString()){
+            case "DE CETTE COULEUR STATE":
+        
+            try {
+                bus.sendMsg("Palette:DemanderInfo nom=" + selectedFormUpdate);
+            } catch (IvyException ex) {
+                Logger.getLogger(MainFramePalette.class.getName()).log(Level.SEVERE, null, ex);
+            }
+ 
+        
+                break;
+            default:
+                this.colorUpdate = color;
         System.out.println("CURRENT Color: "+colorUpdate);
+                break;
+        
+        }
     }
 
     @Override
@@ -310,6 +349,12 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
     public void updateForme() {
         this.formeUpdate = forme;
         System.out.println("CURRENT Form: "+formeUpdate);
+    }
+
+    @Override
+    public void updateSelectedForme() {
+       this.selectedFormUpdate = selectedForm;
+        System.out.println("CURRENT Selected Form: "+selectedFormUpdate);
     }
 
 }

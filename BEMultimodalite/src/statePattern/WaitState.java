@@ -10,15 +10,17 @@ package statePattern;
  * @author ladoucar
  */
 public class WaitState implements State {
+    
+    public String toString(){
+      return "WAIT STATE";
+   }
 
     @Override
     public void doActionDessinForme(Context context) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void doActionVoixRougeBleu(Context context) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -28,27 +30,22 @@ public class WaitState implements State {
 
     @Override
     public void doActionVoixIci(Context context) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void doActionClick(Context context) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void doActionSelection(Context context) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void doActionTimerCreer(Context context) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void doActionTimerIci(Context context) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
