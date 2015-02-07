@@ -12,7 +12,7 @@ package statePattern;
 public class CreerState implements State {
     
     public String toString(){
-      return "Creer State";
+      return "CREER STATE";
    }
 
     @Override
@@ -21,7 +21,9 @@ public class CreerState implements State {
 
     @Override
     public void doActionVoixRougeBleu(Context context) {
-
+        context.updateCouleur();
+        context.dessinerForme();
+        context.setState(new InitState());
     }
 
     @Override

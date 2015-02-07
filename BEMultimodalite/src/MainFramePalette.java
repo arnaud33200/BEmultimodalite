@@ -1,4 +1,10 @@
 
+import fr.dgac.ivy.Ivy;
+import fr.dgac.ivy.IvyClient;
+import fr.dgac.ivy.IvyException;
+import fr.dgac.ivy.IvyMessageListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import statePattern.Context;
 import statePattern.InitState;
 import statePattern.State;
@@ -16,10 +22,94 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
     private State state;
     private Context context;
+    private Ivy bus;
+
+    /* Variables mises à jour à chaque évènement recu sur le bus IVY */
+    private int x = 0;
+    private int y = 0;
+    private String forme = "rectangle";
+    private String color = "white";
+    private String selectedForm = "none";
     
-    public MainFramePalette() {
+    /* Variable mise à jour dans les fonctions updatePosition(), updateCouleur(), updateForme() */
+    private int xUpdate;
+    private int yUpdate;
+    private String formeUpdate;
+    private String colorUpdate;
+    private String selectedFormUpdate;
+
+    public MainFramePalette() throws IvyException {
         initComponents();
-        
+
+        bus = new Ivy("Multimodalite", "Multimodalite Ready", null);
+
+        bus.bindMsg("^Palette:MouseReleased x=(.*) y=(.*)$", new IvyMessageListener() {
+            public void receive(IvyClient client, String[] args) {
+                System.out.println("IVY Mouse Released" + " x:" + ((args.length > 0) ? args[0] : "") + " y:" + ((args.length > 0) ? args[1] : ""));
+                x = Integer.parseInt(args[0]);
+                y = Integer.parseInt(args[1]);
+                context.getDaState().doActionClick(context);
+
+            }
+        });
+        bus.bindMsg("^Palette:MousePressed x=(.*) y=(.*)$", new IvyMessageListener() {
+            public void receive(IvyClient client, String[] args) {
+                System.out.println("IVY Mouse Pressed" + " x:" + ((args.length > 0) ? args[0] : "") + " y:" + ((args.length > 0) ? args[1] : ""));
+                x = Integer.parseInt(args[0]);
+                y = Integer.parseInt(args[1]);
+                try {
+                    bus.sendMsg("Palette:TesterPoint x=" + x + " y=" + y);
+                } catch (IvyException ex) {
+                    Logger.getLogger(MainFramePalette.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+        bus.bindMsg("^ICAR rectangle$", new IvyMessageListener() {
+            public void receive(IvyClient client, String[] args) {
+                System.out.println("IVY Rectangle" + ((args.length > 0) ? args[0] : ""));
+                forme = "rectangle";
+                context.getDaState().doActionDessinForme(context);
+            }
+        });
+
+        bus.bindMsg("^ICAR cercle$", new IvyMessageListener() {
+            public void receive(IvyClient client, String[] args) {
+                System.out.println("IVY Cercle" + ((args.length > 0) ? args[0] : ""));
+                forme = "circle";
+                context.getDaState().doActionDessinForme(context);
+            }
+        });
+
+        bus.bindMsg("^sra5 Parsed=Action:peindre Couleur:(.*) Confidence=(.*)$", new IvyMessageListener() {
+            public void receive(IvyClient client, String[] args) {
+                System.out.println("IVY Couleur " + ((args.length > 0) ? args[0] : ""));
+                switch (args[0]) {
+                    case "rouge":
+                        color = "red";
+                        break;
+                    case "bleu":
+                        color = "blue";
+                        break;
+                    default:
+                        color = "white";
+                        break;
+                }
+                context.getDaState().doActionVoixRougeBleu(context);
+            }
+        });
+
+        bus.bindMsg("Palette:ResultatTesterPoint x=(.*) y=(.*) nom=(.*)", new IvyMessageListener() {
+            public void receive(IvyClient client, String[] args) {
+                System.out.println("IVY Forme " + ((args.length > 0) ? args[2] : ""));
+                selectedForm = args[2];
+                
+                context.getDaState().doActionSelection(context);
+            }
+        });
+
+        bus.start("127.255.255.255:2010");
+
         state = new InitState();
         context = this;
     }
@@ -147,7 +237,11 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFramePalette().setVisible(true);
+                try {
+                    new MainFramePalette().setVisible(true);
+                } catch (IvyException ex) {
+                    Logger.getLogger(MainFramePalette.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -163,6 +257,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
     @Override
     public void setState(State state) {
         this.state = state;
+        System.err.println(state.toString());
     }
 
     @Override
@@ -177,17 +272,44 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
     @Override
     public void updateCouleur() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.colorUpdate = color;
+        System.out.println("CURRENT Color: "+colorUpdate);
     }
 
     @Override
     public void dessinerForme() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        switch (formeUpdate) {
+            case "rectangle":
+                try {
+                    bus.sendMsg("Palette:CreerRectangle x=" + xUpdate + " y=" + yUpdate + " couleurFond=" + colorUpdate);
+                } catch (IvyException ie) {
+                    System.out.println("can't send my message !");
+                }
+                break;
+            case "circle": {
+                try {
+                    bus.sendMsg("Palette:CreerEllipse x=" + xUpdate + " y=" + yUpdate + " couleurFond=" + colorUpdate);
+                } catch (IvyException ex) {
+                    Logger.getLogger(MainFramePalette.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void updatePosition() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.xUpdate = x;
+        this.yUpdate = y;
+        System.out.println("CURRENT Position X: "+xUpdate+" Y: "+yUpdate);
+    }
+
+    @Override
+    public void updateForme() {
+        this.formeUpdate = forme;
+        System.out.println("CURRENT Form: "+formeUpdate);
     }
 
 }

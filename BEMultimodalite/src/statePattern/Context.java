@@ -10,7 +10,7 @@ package statePattern;
  * @author fornervi
  */
 public interface Context {
-
+   
    public void setState(State state);
    public State getDaState();
    public void startTimerIci();
@@ -20,4 +20,6 @@ public interface Context {
     public void dessinerForme();
 
     public void updatePosition();
+    
+    public void updateForme();
 }
