@@ -60,5 +60,9 @@ public class CreerState implements State {
     public void doActionTimerWait(Context context) {
 
     }
+
+    @Override
+    public void doActionColorReceived(Context context) {
+    }
     
 }

@@ -37,10 +37,6 @@ public class DeCetteCouleurState implements State{
 
     @Override
     public void doActionSelection(Context context) {
-        context.updateSelectedForme();
-        context.updateCouleur();
-        context.dessinerForme();
-        context.setState(new InitState());
     }
 
     @Override
@@ -53,6 +49,13 @@ public class DeCetteCouleurState implements State{
 
     @Override
     public void doActionTimerWait(Context context) {
+    }
+
+    @Override
+    public void doActionColorReceived(Context context) {
+        context.updateSelectedForme();
+        context.updateCouleur();
+        context.setState(new WaitSelectedColorState());
     }
     
 }

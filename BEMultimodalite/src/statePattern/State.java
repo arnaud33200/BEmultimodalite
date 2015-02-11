@@ -19,4 +19,5 @@ public interface State {
    public void doActionTimerCreer(Context context);
    public void doActionTimerIci(Context context);
    public void doActionTimerWait(Context context);
+   public void doActionColorReceived(Context context);
 }

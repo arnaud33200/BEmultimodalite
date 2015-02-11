@@ -144,7 +144,9 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
             public void receive(IvyClient client, String[] args) {
                 colorUpdate = args[5];
                 System.out.println("IVY Selected couleur " + ((args.length > 0) ? args[5] : ""));
-                context.getDaState().doActionDessinForme(context);
+                if(colorUpdate != null){
+                context.getDaState().doActionColorReceived(context);
+                }
             }
         });
 

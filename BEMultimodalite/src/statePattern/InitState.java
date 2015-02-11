@@ -52,4 +52,8 @@ public class InitState implements State {
     @Override
     public void doActionTimerWait(Context context) {
     }
+
+    @Override
+    public void doActionColorReceived(Context context) {
+    }
 }

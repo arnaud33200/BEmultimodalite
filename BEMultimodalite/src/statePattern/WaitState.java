@@ -50,8 +50,13 @@ public class WaitState implements State {
 
     @Override
     public void doActionTimerWait(Context context) {
-        context.setState(new InitState());
         context.dessinerForme();
+        context.setState(new InitState());
+        
+    }
+    
+    @Override
+    public void doActionColorReceived(Context context) {
     }
     
 }
