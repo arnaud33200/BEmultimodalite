@@ -156,7 +156,7 @@ public class GestureViewPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
-        myGesture = new Gesture();
+        //myGesture = new Gesture();
         formeView1.setHighlight(false);
         formeView2.setHighlight(false);
         Graphics g = evt.getComponent().getGraphics();
