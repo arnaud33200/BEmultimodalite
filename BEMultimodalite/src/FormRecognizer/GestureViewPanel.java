@@ -11,7 +11,9 @@ import fr.dgac.ivy.IvyClient;
 import fr.dgac.ivy.IvyException;
 import fr.dgac.ivy.IvyMessageListener;
 import java.awt.Color;
+import java.awt.Event;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,11 +29,13 @@ public class GestureViewPanel extends javax.swing.JPanel {
     private static HashMap<String, IvyMessageListener> bindings;
     private static IvyMessageListener daListener;
     private static DefaultListModel listModel = new DefaultListModel();
+     private ArrayList<GestureListener> listeners;
 
     private Gesture myGesture;
 
     public GestureViewPanel() {
         initComponents();
+        listeners = new ArrayList();
         myGesture = new Gesture();
         formeView1.setShape(myGesture.circle);
         formeView2.setShape(myGesture.rectangle);
@@ -55,9 +59,21 @@ public class GestureViewPanel extends javax.swing.JPanel {
             }
         });
     }
-    
+
     public void addGestureListener(GestureListener l) {
-        myGesture.addGestureListener(l);
+        listeners.add(l);
+    }
+
+    private void fireAllRectangleRecognized() {
+        for (GestureListener l : listeners) {
+            l.GestureRectangleRecognized(new Event(null, 0, null));
+        }
+    }
+
+    private void fireAllEllispeRecognized() {
+        for (GestureListener l : listeners) {
+            l.GestureEllispeRecognized(new Event(null, 0, null));
+        }
     }
 
     private static void addNewBinding(String filter, IvyMessageListener l) {
@@ -156,7 +172,7 @@ public class GestureViewPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
-        //myGesture = new Gesture();
+        myGesture = new Gesture();
         formeView1.setHighlight(false);
         formeView2.setHighlight(false);
         Graphics g = evt.getComponent().getGraphics();
@@ -165,24 +181,25 @@ public class GestureViewPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jPanel1MousePressed
 
     private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
-        myGesture.collectNewPoint(new PointGeste((double)evt.getX(), (double)evt.getY()));
-        
+        myGesture.collectNewPoint(new PointGeste((double) evt.getX(), (double) evt.getY()));
+
         Graphics g = evt.getComponent().getGraphics();
         g.setColor(Color.BLACK);
-        g.fillOval(evt.getX()-3, evt.getY()-3, 7, 7);
+        g.fillOval(evt.getX() - 3, evt.getY() - 3, 7, 7);
     }//GEN-LAST:event_jPanel1MouseDragged
 
     private void jPanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseReleased
         myGesture.finishCollection();
-        
+
         if (myGesture.forme == Gesture.SHAPECIRCLE) {
             drawCircle(100, 100, 100, 100, 100, 100);
             formeView1.setHighlight(true);
-        }
-        else if (myGesture.forme == Gesture.SHAPERECTANGLE) {
+            fireAllEllispeRecognized();
+        } else if (myGesture.forme == Gesture.SHAPERECTANGLE) {
             drawRectangle(100, 100, 100, 100, 100, 100);
             formeView2.setHighlight(true);
-        } 
+            fireAllRectangleRecognized();
+        }
         repaint();
     }//GEN-LAST:event_jPanel1MouseReleased
 
