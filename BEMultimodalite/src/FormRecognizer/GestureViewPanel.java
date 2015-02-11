@@ -54,7 +54,10 @@ public class GestureViewPanel extends javax.swing.JPanel {
                 System.out.println(">>> - " + ic.getHostName() + " : " + m);
             }
         });
-
+    }
+    
+    public void addGestureListener(GestureListener l) {
+        myGesture.addGestureListener(l);
     }
 
     private static void addNewBinding(String filter, IvyMessageListener l) {
@@ -70,7 +73,7 @@ public class GestureViewPanel extends javax.swing.JPanel {
         try {
             bus.sendMsg("Palette:CreerRectangle x=" + x + " y=" + y);
         } catch (IvyException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
 
@@ -78,7 +81,6 @@ public class GestureViewPanel extends javax.swing.JPanel {
         try {
             bus.sendMsg("Palette:CreerEllipse x=" + x + " y=" + y + "Longueur=" + w + " hauteur=" + h);
         } catch (IvyException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

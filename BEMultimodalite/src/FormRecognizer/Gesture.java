@@ -5,6 +5,7 @@
  */
 package FormRecognizer;
 
+import java.awt.Event;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -26,6 +27,8 @@ public class Gesture {
 
     public ArrayList<PointGeste> circle;
     public ArrayList<PointGeste> rectangle;
+    
+    public ArrayList<GestureListener> listeners;
 
     private static int N = 64;
     private static double SquareSize = (double) 250.0;
@@ -33,6 +36,7 @@ public class Gesture {
     public String forme;
 
     public Gesture() {
+        listeners = new ArrayList();
         forme = "";
         points = new ArrayList<>();
         step1points = new ArrayList<>();
@@ -41,6 +45,22 @@ public class Gesture {
         step4points = new ArrayList<>();
 
         initShapeModel();
+    }
+    
+    public void addGestureListener(GestureListener l) {
+       listeners.add(l);
+    }
+     
+    private void fireAllRectangleRecognized() {
+        for (GestureListener l : listeners) {
+            l.GestureRectangleRecognized(new Event(null, 0, null));
+        }
+    }
+     
+    private void fireAllEllispeRecognized() {
+        for (GestureListener l : listeners) {
+            l.GestureEllispeRecognized(new Event(null, 0, null));
+        }
     }
 
     public ArrayList<PointGeste> getPoints() {
@@ -97,8 +117,10 @@ public class Gesture {
        // System.out.println("Distance : c=" + distC + " / r=" + distR);
         if (distC < distR && distC < 5000) {
             forme = SHAPECIRCLE;
+            fireAllEllispeRecognized();
         } else if (distR < distC && distR < 5000) {
             forme = SHAPERECTANGLE;
+            fireAllRectangleRecognized();
         }
 
         if (forme == "") {
@@ -114,8 +136,10 @@ public class Gesture {
            // System.out.println("Distance : c=" + distC + " / r=" + distR);
             if (distC < distR && distC < 5000) {
                 forme = SHAPECIRCLE;
+                fireAllEllispeRecognized();
             } else if (distR < distC && distR < 5000) {
                 forme = SHAPERECTANGLE;
+                fireAllRectangleRecognized();
             }
         }
 
@@ -362,5 +386,6 @@ public class Gesture {
         rectangle.add(new PointGeste(24, 141));
 
     }
+
 
 }

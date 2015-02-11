@@ -39,10 +39,8 @@ public class DeCetteCouleurState implements State{
     public void doActionSelection(Context context) {
         context.updateSelectedForme();
         context.updateCouleur();
-        /*
         context.dessinerForme();
         context.setState(new InitState());
-                */
     }
 
     @Override
