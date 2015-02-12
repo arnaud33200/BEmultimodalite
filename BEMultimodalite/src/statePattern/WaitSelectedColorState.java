@@ -38,8 +38,7 @@ public class WaitSelectedColorState implements State{
 
     @Override
     public void doActionSelection(Context context) {
-        context.dessinerForme();
-        context.setState(new InitState());
+        
     }
 
     @Override
@@ -56,6 +55,8 @@ public class WaitSelectedColorState implements State{
 
     @Override
     public void doActionColorReceived(Context context) {
+        context.dessinerForme();
+        context.setState(new InitState());
     }
     
 }

@@ -143,8 +143,8 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
         bus.bindMsg("Palette:Info nom=(.*) x=(.*) y=(.*) longueur=(.*) hauteur=(.*) couleurFond=(.*) couleurContour=(.*)", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
                 colorUpdate = args[5];
-                System.out.println("IVY Selected couleur " + ((args.length > 0) ? args[5] : ""));
                 if(colorUpdate != null){
+                System.out.println("IVY Selected couleur " + colorUpdate);
                 context.getDaState().doActionColorReceived(context);
                 }
             }
@@ -410,6 +410,11 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
             default:
                 break;
         }
+        this.xUpdate = 0;
+        this.yUpdate = 0;
+        this.formeUpdate = "rectangle";
+        this.colorUpdate = "white";
+        this.selectedFormUpdate = "none";
     }
 
     @Override
