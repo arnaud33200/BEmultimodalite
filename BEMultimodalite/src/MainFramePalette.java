@@ -64,12 +64,12 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
             @Override
             public void GestureLeftRecognized(Event e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
             }
 
             @Override
             public void GestureRightRecognized(Event e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
             }
         });
 
