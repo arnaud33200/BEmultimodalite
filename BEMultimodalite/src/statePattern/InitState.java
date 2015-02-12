@@ -35,10 +35,11 @@ public class InitState implements State {
 
     @Override
     public void doActionClick(Context context) {
+        context.setState(new DeplacerState());
     }
 
     @Override
-    public void doActionSelection(Context context) {
+    public void doActionSelection(Context context) { 
     }
 
     @Override

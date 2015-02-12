@@ -24,4 +24,6 @@ public interface Context {
     public void updateForme();
     
     public void updateSelectedForme();
+    
+    public void deplacerForme();
 }
