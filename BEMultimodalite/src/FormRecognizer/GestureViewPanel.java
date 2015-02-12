@@ -39,6 +39,8 @@ public class GestureViewPanel extends javax.swing.JPanel {
         myGesture = new Gesture();
         formeView1.setShape(myGesture.circle);
         formeView2.setShape(myGesture.rectangle);
+        formeView3.setShape(myGesture.left);
+        formeView4.setShape(myGesture.right);
         bindings = new HashMap<String, IvyMessageListener>();
         bus = new Ivy("TEST", "Hellooooo", null);
 
@@ -76,27 +78,25 @@ public class GestureViewPanel extends javax.swing.JPanel {
         }
     }
 
+
+    private void fireAllLeftRecognized() {
+        for (GestureListener l : listeners) {
+            l.GestureLeftRecognized(new Event(null, 0, null));
+        }
+    }
+
+    private void fireAllRightRecognized() {
+        for (GestureListener l : listeners) {
+            l.GestureRightRecognized(new Event(null, 0, null));
+        }
+    }
+
     private static void addNewBinding(String filter, IvyMessageListener l) {
         bindings.put(filter, l);
         try {
             bus.bindAsyncMsg(filter, l, BindType.SWING);
         } catch (IvyException ex) {
             //Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void drawRectangle(int x, int y, int w, int h, int back, int border) {
-        try {
-            bus.sendMsg("Palette:CreerRectangle x=" + x + " y=" + y);
-        } catch (IvyException ex) {
-
-        }
-    }
-
-    private void drawCircle(int x, int y, int w, int h, int back, int border) {
-        try {
-            bus.sendMsg("Palette:CreerEllipse x=" + x + " y=" + y + "Longueur=" + w + " hauteur=" + h);
-        } catch (IvyException ex) {
         }
     }
 
@@ -112,6 +112,8 @@ public class GestureViewPanel extends javax.swing.JPanel {
         formeView1 = new FormRecognizer.FormeView();
         formeView2 = new FormRecognizer.FormeView();
         jPanel1 = new javax.swing.JPanel();
+        formeView3 = new FormRecognizer.FormeView();
+        formeView4 = new FormRecognizer.FormeView();
 
         formeView1.setText("Ellispe");
 
@@ -144,17 +146,28 @@ public class GestureViewPanel extends javax.swing.JPanel {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        formeView3.setToolTipText("");
+        formeView3.setText("Left");
+
+        formeView4.setText("Right");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(formeView1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(formeView2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(formeView1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(formeView2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(formeView3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(formeView4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -162,11 +175,15 @@ public class GestureViewPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(formeView1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(formeView2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(formeView2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(formeView3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formeView4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -175,6 +192,8 @@ public class GestureViewPanel extends javax.swing.JPanel {
         myGesture = new Gesture();
         formeView1.setHighlight(false);
         formeView2.setHighlight(false);
+        formeView3.setHighlight(false);
+        formeView4.setHighlight(false);
         Graphics g = evt.getComponent().getGraphics();
         g.setColor(Color.BLACK);
         g.fillOval(evt.getX() - 5, evt.getY() - 5, 11, 11);
@@ -192,13 +211,17 @@ public class GestureViewPanel extends javax.swing.JPanel {
         myGesture.finishCollection();
 
         if (myGesture.forme == Gesture.SHAPECIRCLE) {
-            drawCircle(100, 100, 100, 100, 100, 100);
             formeView1.setHighlight(true);
             fireAllEllispeRecognized();
         } else if (myGesture.forme == Gesture.SHAPERECTANGLE) {
-            drawRectangle(100, 100, 100, 100, 100, 100);
             formeView2.setHighlight(true);
             fireAllRectangleRecognized();
+        } else if (myGesture.forme == Gesture.SHAPELEFT) {
+            formeView3.setHighlight(true);
+            fireAllLeftRecognized();
+        } else if (myGesture.forme == Gesture.SHAPERIGHT) {
+            formeView4.setHighlight(true);
+            fireAllRightRecognized();
         }
         repaint();
     }//GEN-LAST:event_jPanel1MouseReleased
@@ -207,6 +230,8 @@ public class GestureViewPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private FormRecognizer.FormeView formeView1;
     private FormRecognizer.FormeView formeView2;
+    private FormRecognizer.FormeView formeView3;
+    private FormRecognizer.FormeView formeView4;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
