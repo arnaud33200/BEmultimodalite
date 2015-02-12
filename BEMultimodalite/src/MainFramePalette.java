@@ -40,6 +40,9 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
     private String formeUpdate;
     private String colorUpdate;
     private String selectedFormUpdate;
+    
+    private int deplacementX=0;
+    private int deplacementY=0;
 
     public MainFramePalette() throws IvyException {
         initComponents();
@@ -101,24 +104,14 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
         bus.bindMsg("^ICAR gauche$", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
-                //System.out.println("IVY Cercle" + ((args.length > 0) ? args[0] : ""));
-                if (xUpdate > 50) {
-                    xUpdate = xUpdate - 50;
-                } else {
-                    xUpdate = 0;
-                }
+                deplacementX = -20;
                 context.getDaState().doActionDessinForme(context);
             }
         });
 
         bus.bindMsg("^ICAR droite$", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
-                //System.out.println("IVY Cercle" + ((args.length > 0) ? args[0] : ""));
-                if (xUpdate < 350) {
-                    xUpdate = xUpdate + 50;
-                } else {
-                    xUpdate = 400;
-                }
+                deplacementX = 20;
                 context.getDaState().doActionDessinForme(context);
             }
         });
@@ -181,6 +174,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
         bus.sendMsg("Palette:CreerEllipse x=" + 380 + " y=" + 55 + " couleurFond=" + "yellow");
         bus.sendMsg("Palette:CreerEllipse x=" + 380 + " y=" + 110 + " couleurFond=" + "blue");
         bus.sendMsg("Palette:CreerEllipse x=" + 380 + " y=" + 165 + " couleurFond=" + "red");
+        
     }
 
     /**
@@ -436,6 +430,11 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
     @Override
     public void deplacerForme() {
         System.out.println("******* Deplacement forme " + selectedFormUpdate + " en x: " + xUpdate + " y: " + yUpdate + " *******");
+        try {
+            bus.sendMsg("Palette:DeplacerObjet nom=" + selectedFormUpdate + " x=" + deplacementX + " y=" + 0);
+        } catch (IvyException ex) {
+            Logger.getLogger(MainFramePalette.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
