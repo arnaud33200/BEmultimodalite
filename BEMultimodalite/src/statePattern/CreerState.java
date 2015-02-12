@@ -64,5 +64,6 @@ public class CreerState implements State {
     @Override
     public void doActionColorReceived(Context context) {
     }
+
     
 }

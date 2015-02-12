@@ -58,5 +58,6 @@ public class WaitSelectedColorState implements State{
         context.dessinerForme();
         context.setState(new InitState());
     }
+
     
 }

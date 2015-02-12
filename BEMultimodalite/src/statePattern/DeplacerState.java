@@ -62,5 +62,4 @@ public class DeplacerState implements State {
     @Override
     public void doActionColorReceived(Context context) {
     }
-    
 }

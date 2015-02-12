@@ -61,4 +61,5 @@ public class IciState implements State {
     public void doActionColorReceived(Context context) {
     }
     
+    
 }

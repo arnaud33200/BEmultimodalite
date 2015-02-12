@@ -57,4 +57,5 @@ public class InitState implements State {
     @Override
     public void doActionColorReceived(Context context) {
     }
+
 }

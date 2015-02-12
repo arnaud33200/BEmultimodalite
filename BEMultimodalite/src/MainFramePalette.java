@@ -41,6 +41,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
     private String colorUpdate;
     private String selectedFormUpdate;
     
+    
     private int deplacementX=0;
     private int deplacementY=0;
 
@@ -78,6 +79,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
                 //System.out.println("IVY Mouse Pressed" + " x:" + ((args.length > 0) ? args[0] : "") + " y:" + ((args.length > 0) ? args[1] : ""));
                 x = Integer.parseInt(args[0]);
                 y = Integer.parseInt(args[1]);
+                
                 try {
                     bus.sendMsg("Palette:TesterPoint x=" + x + " y=" + y);
                 } catch (IvyException ex) {
@@ -429,12 +431,14 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
     @Override
     public void deplacerForme() {
-        System.out.println("******* Deplacement forme " + selectedFormUpdate + " en x: " + xUpdate + " y: " + yUpdate + " *******");
         try {
-            bus.sendMsg("Palette:DeplacerObjet nom=" + selectedFormUpdate + " x=" + deplacementX + " y=" + 0);
+            bus.sendMsg("Palette:DeplacerObjet nom=" + selectedFormUpdate + " x=" + deplacementX + " y=" + deplacementY);
         } catch (IvyException ex) {
             Logger.getLogger(MainFramePalette.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        deplacementX =0;
+        deplacementY = 0;
     }
 
 }
