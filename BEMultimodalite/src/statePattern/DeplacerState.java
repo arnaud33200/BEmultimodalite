@@ -17,10 +17,6 @@ public class DeplacerState implements State {
 
     @Override
     public void doActionDessinForme(Context context) {
-        context.updatePosition();
-        context.updateSelectedForme();
-        context.deplacerForme();
-        context.setState(new InitState());
     }
 
     @Override
@@ -33,33 +29,44 @@ public class DeplacerState implements State {
 
     @Override
     public void doActionVoixIci(Context context) {
+        
     }
 
     @Override
     public void doActionClick(Context context) {
         context.updatePosition();
         context.updateSelectedForme();
-        context.deplacerForme();
-        context.setState(new InitState());
+        context.setState(new FormeSelectionneState());
     }
 
     @Override
     public void doActionSelection(Context context) {
+        
     }
 
     @Override
     public void doActionTimerCreer(Context context) {
+
     }
 
     @Override
     public void doActionTimerIci(Context context) {
+
     }
 
     @Override
     public void doActionTimerWait(Context context) {
+
     }
 
     @Override
-    public void doActionColorReceived(Context context) {
+    public void doActionInfoReceived(Context context) {
+
     }
+
+    @Override
+    public void doActionVoixDeplacer(Context context) {
+        
+    }
+
 }

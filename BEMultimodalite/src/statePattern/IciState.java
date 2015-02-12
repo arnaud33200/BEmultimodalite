@@ -58,8 +58,12 @@ public class IciState implements State {
     }
 
     @Override
-    public void doActionColorReceived(Context context) {
+    public void doActionInfoReceived(Context context) {
     }
-    
+    @Override
+    public void doActionVoixDeplacer(Context context) {
+        
+    }
+
     
 }

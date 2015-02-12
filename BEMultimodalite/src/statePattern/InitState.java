@@ -35,7 +35,7 @@ public class InitState implements State {
 
     @Override
     public void doActionClick(Context context) {
-        context.setState(new DeplacerState());
+        //context.setState(new DeplacerState());
     }
 
     @Override
@@ -55,7 +55,11 @@ public class InitState implements State {
     }
 
     @Override
-    public void doActionColorReceived(Context context) {
+    public void doActionInfoReceived(Context context) {
+    }
+@Override
+    public void doActionVoixDeplacer(Context context) {
+        context.setState(new DeplacerState());
     }
 
 }

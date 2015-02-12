@@ -14,10 +14,11 @@ public interface State {
    public void doActionVoixRougeBleu(Context context);
    public void doActionVoixDeCetteCouleur(Context context);
    public void doActionVoixIci(Context context);
+   public void doActionVoixDeplacer(Context context);
    public void doActionClick(Context context);
    public void doActionSelection(Context context);
    public void doActionTimerCreer(Context context);
    public void doActionTimerIci(Context context);
    public void doActionTimerWait(Context context);
-   public void doActionColorReceived(Context context);
+   public void doActionInfoReceived(Context context);
 }

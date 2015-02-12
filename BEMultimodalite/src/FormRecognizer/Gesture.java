@@ -88,11 +88,6 @@ public class Gesture {
         applyStep3();
         applyStep4();
         
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        for (PointGeste p : step4points) {
-            System.out.println("" + (int)p.x +","+(int)p.y);
-        }
-        
         forme = "";
         int distC = 0;
         int distR = 0;

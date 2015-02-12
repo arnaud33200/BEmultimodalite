@@ -9,15 +9,18 @@ package statePattern;
  *
  * @author Vincent
  */
-public class WaitSelectedColorState implements State{
-    
+public class FormeSelectionneState implements State{
+
     public String toString(){
-      return "WAIT SELECTED COLOR STATE";
+      return "FORM SELECT STATE";
    }
     
-
     @Override
     public void doActionDessinForme(Context context) {
+        context.updatePosition();
+        context.updateSelectedForme();
+        context.deplacerForme();
+        context.setState(new InitState());
     }
 
     @Override
@@ -34,11 +37,13 @@ public class WaitSelectedColorState implements State{
 
     @Override
     public void doActionClick(Context context) {
+        context.updatePosition();
+        context.updateSelectedForme();
+        context.setState(new WaitSelectedPositionState());
     }
 
     @Override
     public void doActionSelection(Context context) {
-        
     }
 
     @Override
@@ -55,13 +60,10 @@ public class WaitSelectedColorState implements State{
 
     @Override
     public void doActionInfoReceived(Context context) {
-        context.dessinerForme();
-        context.setState(new InitState());
     }
-@Override
+    @Override
     public void doActionVoixDeplacer(Context context) {
         
     }
 
-    
 }

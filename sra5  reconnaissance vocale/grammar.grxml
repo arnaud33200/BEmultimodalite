@@ -13,7 +13,7 @@
    <rule id="answer" scope="public"> 
     <ruleref special="GARBAGE" /> 
     <one-of>
-      <item><ruleref uri="#deplacement"/></item>
+      <item><ruleref uri="#deplacer"/></item>
 	  <item><ruleref uri="#peindre"/></item>
       <item><ruleref uri="#initialiser"/></item>
 	  <item><ruleref uri="#centrer"/></item>
@@ -24,8 +24,9 @@
     <ruleref special="GARBAGE" />
   </rule>
        
-   <rule id="deplacement">
-    <item>deplacer <ruleref uri="#position"/></item>
+   <rule id="deplacer">
+    <item>deplacer</item>
+    <tag>out.text  = "Action:deplacer"</tag>
   </rule>
 
   <rule id="peindreSelection">
@@ -50,16 +51,6 @@
   <rule id="centrer">
       <item>centrer</item>
       <tag>out.text  = "Action:" + meta.current().text;</tag>
-  </rule>
-  
-  <rule id="position">
-    <one-of>
-      <item>en haut</item>
-      <item>en bas</item>
-      <item>a gauche</item>
-      <item>a droite</item>
-    </one-of>      
-    <tag>out.text  = "Action:deplacement Position:" + meta.current().text;</tag>
   </rule>
   
   <rule id="couleur">

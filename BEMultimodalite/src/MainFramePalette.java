@@ -40,10 +40,12 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
     private String formeUpdate;
     private String colorUpdate;
     private String selectedFormUpdate;
-    
-    
-    private int deplacementX=0;
-    private int deplacementY=0;
+
+    private int selectedFormX = 0;
+    private int selectedFormY = 0;
+
+    private int deplacementX = 0;
+    private int deplacementY = 0;
 
     public MainFramePalette() throws IvyException {
         initComponents();
@@ -64,12 +66,14 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
             @Override
             public void GestureLeftRecognized(Event e) {
-
+                deplacementX = -100;
+                context.getDaState().doActionDessinForme(context);
             }
 
             @Override
             public void GestureRightRecognized(Event e) {
-
+                deplacementX = 100;
+                context.getDaState().doActionDessinForme(context);
             }
         });
 
@@ -80,6 +84,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
                 //System.out.println("IVY Mouse Released" + " x:" + ((args.length > 0) ? args[0] : "") + " y:" + ((args.length > 0) ? args[1] : ""));
                 x = Integer.parseInt(args[0]);
                 y = Integer.parseInt(args[1]);
+
                 context.getDaState().doActionClick(context);
 
             }
@@ -89,7 +94,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
                 //System.out.println("IVY Mouse Pressed" + " x:" + ((args.length > 0) ? args[0] : "") + " y:" + ((args.length > 0) ? args[1] : ""));
                 x = Integer.parseInt(args[0]);
                 y = Integer.parseInt(args[1]);
-                
+
                 try {
                     bus.sendMsg("Palette:TesterPoint x=" + x + " y=" + y);
                 } catch (IvyException ex) {
@@ -160,6 +165,13 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
             }
         });
 
+        bus.bindMsg("^sra5 Parsed=Action:deplacer", new IvyMessageListener() {
+            public void receive(IvyClient client, String[] args) {
+                //System.out.println("IVY Ici " + ((args.length > 0) ? args[0] : ""));
+                context.getDaState().doActionVoixDeplacer(context);
+            }
+        });
+
         bus.bindMsg("Palette:ResultatTesterPoint x=(.*) y=(.*) nom=(.*)", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
                 System.out.println("IVY Forme " + ((args.length > 0) ? args[2] : ""));
@@ -171,10 +183,11 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
         bus.bindMsg("Palette:Info nom=(.*) x=(.*) y=(.*) longueur=(.*) hauteur=(.*) couleurFond=(.*) couleurContour=(.*)", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
                 colorUpdate = args[5];
-                if (colorUpdate != null) {
-                    //System.out.println("IVY Selected couleur " + colorUpdate);
-                    context.getDaState().doActionColorReceived(context);
-                }
+                selectedFormX = Integer.parseInt(args[1]);
+                selectedFormY = Integer.parseInt(args[2]);
+
+                context.getDaState().doActionInfoReceived(context);
+
             }
         });
 
@@ -186,7 +199,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
         bus.sendMsg("Palette:CreerEllipse x=" + 380 + " y=" + 55 + " couleurFond=" + "yellow");
         bus.sendMsg("Palette:CreerEllipse x=" + 380 + " y=" + 110 + " couleurFond=" + "blue");
         bus.sendMsg("Palette:CreerEllipse x=" + 380 + " y=" + 165 + " couleurFond=" + "red");
-        
+
     }
 
     /**
@@ -200,134 +213,24 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
         jTextField1 = new javax.swing.JTextField();
         gestureViewPanel1 = new FormRecognizer.GestureViewPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 255));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 61, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
-        );
-
-        jPanel2.setBackground(new java.awt.Color(90, 222, 90));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 61, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
-        );
-
-        jPanel3.setBackground(new java.awt.Color(255, 51, 51));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 61, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
-        );
-
-        jButton1.setText("jButton1");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jButton1MouseReleased(evt);
-            }
-        });
-
-        jButton2.setText("jButton1");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jButton2MouseReleased(evt);
-            }
-        });
-
-        jButton3.setText("jButton1");
-        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jButton3MouseReleased(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(gestureViewPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+            .addComponent(gestureViewPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(gestureViewPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addContainerGap(91, Short.MAX_VALUE))
+            .addComponent(gestureViewPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseReleased
-        context.getDaState().doActionDessinForme(context);
-    }//GEN-LAST:event_jButton1MouseReleased
-
-    private void jButton2MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2MouseReleased
-
-    private void jButton3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3MouseReleased
 
     /**
      * @param args the command line arguments
@@ -348,12 +251,6 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private FormRecognizer.GestureViewPanel gestureViewPanel1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
@@ -429,6 +326,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
     @Override
     public void updateForme() {
+
         this.formeUpdate = forme;
         //System.out.println("CURRENT Form: "+formeUpdate);
     }
@@ -436,19 +334,51 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
     @Override
     public void updateSelectedForme() {
         this.selectedFormUpdate = selectedForm;
+        switch (context.getDaState().toString()) {
+            case "FORM SELECT STATE": {
+                try {
+                    bus.sendMsg("Palette:DemanderInfo nom=" + selectedFormUpdate);
+                } catch (IvyException ex) {
+                    Logger.getLogger(MainFramePalette.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
+            default:
+                break;
+        }
+
         //System.out.println("CURRENT Selected Form: "+selectedFormUpdate);
     }
 
     @Override
     public void deplacerForme() {
-        try {
-            bus.sendMsg("Palette:DeplacerObjet nom=" + selectedFormUpdate + " x=" + deplacementX + " y=" + deplacementY);
-        } catch (IvyException ex) {
-            Logger.getLogger(MainFramePalette.class.getName()).log(Level.SEVERE, null, ex);
+        switch (context.getDaState().toString()) {
+            case "WAIT POSITION STATE":
+                int deplacementClickX = x - selectedFormX;
+                int deplacementClickY = y - selectedFormY;
+                 {
+                    try {
+                        bus.sendMsg("Palette:DeplacerObjet nom=" + selectedFormUpdate + " x=" + deplacementClickX + " y=" + deplacementClickY);
+                    } catch (IvyException ex) {
+                        Logger.getLogger(MainFramePalette.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                break;
+
+            case "FORM SELECT STATE":
+                try {
+                    bus.sendMsg("Palette:DeplacerObjet nom=" + selectedFormUpdate + " x=" + deplacementX + " y=" + deplacementY);
+                } catch (IvyException ex) {
+                    Logger.getLogger(MainFramePalette.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
         }
-        
-        deplacementX =0;
+
+        deplacementX = 0;
         deplacementY = 0;
+        selectedFormX = 0;
+        selectedFormY = 0;
     }
 
 }
