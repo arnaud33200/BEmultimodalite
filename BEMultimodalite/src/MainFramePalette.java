@@ -61,10 +61,11 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
         });
 
         bus = new Ivy("Multimodalite", "Multimodalite Ready", null);
+        
 
         bus.bindMsg("^Palette:MouseReleased x=(.*) y=(.*)$", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
-                System.out.println("IVY Mouse Released" + " x:" + ((args.length > 0) ? args[0] : "") + " y:" + ((args.length > 0) ? args[1] : ""));
+                //System.out.println("IVY Mouse Released" + " x:" + ((args.length > 0) ? args[0] : "") + " y:" + ((args.length > 0) ? args[1] : ""));
                 x = Integer.parseInt(args[0]);
                 y = Integer.parseInt(args[1]);
                 context.getDaState().doActionClick(context);
@@ -73,7 +74,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
         });
         bus.bindMsg("^Palette:MousePressed x=(.*) y=(.*)$", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
-                System.out.println("IVY Mouse Pressed" + " x:" + ((args.length > 0) ? args[0] : "") + " y:" + ((args.length > 0) ? args[1] : ""));
+                //System.out.println("IVY Mouse Pressed" + " x:" + ((args.length > 0) ? args[0] : "") + " y:" + ((args.length > 0) ? args[1] : ""));
                 x = Integer.parseInt(args[0]);
                 y = Integer.parseInt(args[1]);
                 try {
@@ -86,7 +87,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
         bus.bindMsg("^ICAR rectangle$", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
-                System.out.println("IVY Rectangle" + ((args.length > 0) ? args[0] : ""));
+                //System.out.println("IVY Rectangle" + ((args.length > 0) ? args[0] : ""));
                 forme = "rectangle";
                 context.getDaState().doActionDessinForme(context);
             }
@@ -94,7 +95,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
         bus.bindMsg("^ICAR cercle$", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
-                System.out.println("IVY Cercle" + ((args.length > 0) ? args[0] : ""));
+                //System.out.println("IVY Cercle" + ((args.length > 0) ? args[0] : ""));
                 forme = "circle";
                 context.getDaState().doActionDessinForme(context);
             }
@@ -102,7 +103,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
         bus.bindMsg("^sra5 Parsed=Action:peindre Couleur:(.*) Confidence=(.*)$", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
-                System.out.println("IVY Couleur " + ((args.length > 0) ? args[0] : ""));
+                //System.out.println("IVY Couleur " + ((args.length > 0) ? args[0] : ""));
                 switch (args[0]) {
                     case "rouge":
                         color = "red";
@@ -120,21 +121,21 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
         
         bus.bindMsg("^sra5 Parsed=Action:de cette couleur", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
-                System.out.println("IVY De cette couleur " + ((args.length > 0) ? args[0] : ""));
+                //System.out.println("IVY De cette couleur " + ((args.length > 0) ? args[0] : ""));
                 context.getDaState().doActionVoixDeCetteCouleur(context);
             }
         });
         
         bus.bindMsg("^sra5 Parsed=Action:ici", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
-                System.out.println("IVY Ici " + ((args.length > 0) ? args[0] : ""));
+                //System.out.println("IVY Ici " + ((args.length > 0) ? args[0] : ""));
                 context.getDaState().doActionVoixIci(context);
             }
         });
 
         bus.bindMsg("Palette:ResultatTesterPoint x=(.*) y=(.*) nom=(.*)", new IvyMessageListener() {
             public void receive(IvyClient client, String[] args) {
-                System.out.println("IVY Forme " + ((args.length > 0) ? args[2] : ""));
+                //System.out.println("IVY Forme " + ((args.length > 0) ? args[2] : ""));
                 selectedForm = args[2];
                 context.getDaState().doActionSelection(context);
             }
@@ -144,7 +145,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
             public void receive(IvyClient client, String[] args) {
                 colorUpdate = args[5];
                 if(colorUpdate != null){
-                System.out.println("IVY Selected couleur " + colorUpdate);
+                //System.out.println("IVY Selected couleur " + colorUpdate);
                 context.getDaState().doActionColorReceived(context);
                 }
             }
@@ -153,6 +154,11 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
         bus.start("127.255.255.255:2010");
         state = new InitState();
         context = this;
+        
+        bus.sendMsg("Palette:CreerEllipse x=" + 380 + " y=" + 0 + " couleurFond=" + "green");
+        bus.sendMsg("Palette:CreerEllipse x=" + 380 + " y=" + 55 + " couleurFond=" + "yellow");
+        bus.sendMsg("Palette:CreerEllipse x=" + 380 + " y=" + 110 + " couleurFond=" + "blue");
+        bus.sendMsg("Palette:CreerEllipse x=" + 380 + " y=" + 165 + " couleurFond=" + "red");
     } 
 
     /**
@@ -299,36 +305,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFramePalette.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFramePalette.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFramePalette.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFramePalette.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -383,7 +360,6 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
                 break;
             default:
                 this.colorUpdate = color;
-        System.out.println("CURRENT Color: "+colorUpdate);
                 break;
         
         }
@@ -421,19 +397,19 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
     public void updatePosition() {
         this.xUpdate = x;
         this.yUpdate = y;
-        System.out.println("CURRENT Position X: "+xUpdate+" Y: "+yUpdate);
+        //System.out.println("CURRENT Position X: "+xUpdate+" Y: "+yUpdate);
     }
 
     @Override
     public void updateForme() {
         this.formeUpdate = forme;
-        System.out.println("CURRENT Form: "+formeUpdate);
+        //System.out.println("CURRENT Form: "+formeUpdate);
     }
 
     @Override
     public void updateSelectedForme() {
        this.selectedFormUpdate = selectedForm;
-        System.out.println("CURRENT Selected Form: "+selectedFormUpdate);
+        //System.out.println("CURRENT Selected Form: "+selectedFormUpdate);
     }
 
 }
