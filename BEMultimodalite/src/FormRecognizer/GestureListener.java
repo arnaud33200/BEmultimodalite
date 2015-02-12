@@ -15,4 +15,6 @@ import java.util.EventListener;
 public abstract class GestureListener implements EventListener {
     public abstract void GestureRectangleRecognized(Event e);
     public abstract void GestureEllispeRecognized(Event e);
+    public abstract void GestureLeftRecognized(Event e);
+    public abstract void GestureRightRecognized(Event e);
 }

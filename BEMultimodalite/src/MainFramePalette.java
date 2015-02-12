@@ -60,6 +60,16 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
                 forme = "circle";
                 context.getDaState().doActionDessinForme(context);
             }
+
+            @Override
+            public void GestureLeftRecognized(Event e) {
+                
+            }
+
+            @Override
+            public void GestureRightRecognized(Event e) {
+                
+            }
         });
 
         bus = new Ivy("Multimodalite", "Multimodalite Ready", null);
