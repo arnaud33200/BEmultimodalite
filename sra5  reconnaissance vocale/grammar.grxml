@@ -57,6 +57,7 @@
     <one-of>
       <item>rouge</item>
       <item>bleu</item>
+      <item>vert</item>
     </one-of>      
     <tag>out.text  = "Action:peindre Couleur:" + meta.current().text;</tag>
   </rule>

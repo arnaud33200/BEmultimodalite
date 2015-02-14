@@ -153,6 +153,9 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
                     case "bleu":
                         color = "blue";
                         break;
+                    case "vert":
+                        color = "green";
+                        break;
                     default:
                         color = "white";
                         break;
