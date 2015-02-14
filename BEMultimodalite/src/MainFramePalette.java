@@ -48,6 +48,8 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
     private int deplacementX = 0;
     private int deplacementY = 0;
+    
+    private final static int TIMER_DURATION_MS = 4000;
 
     private Timer timerWait;
     private Timer timerCreer;
@@ -392,7 +394,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
             public void run() {
                 context.getDaState().doActionTimerWait(context);
             }
-        }, 4000);
+        }, TIMER_DURATION_MS);
     }
 
     @Override
@@ -403,7 +405,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
             public void run() {
                 context.getDaState().doActionTimerCreer(context);
             }
-        }, 4000);
+        }, TIMER_DURATION_MS);
     }
 
     @Override
@@ -414,7 +416,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
             public void run() {
                 context.getDaState().doActionTimerIci(context);
             }
-        }, 4000);
+        }, TIMER_DURATION_MS);
     }
 
     @Override
@@ -425,7 +427,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
             public void run() {
                 context.getDaState().doActionTimerDeCetteCouleur(context);
             }
-        }, 4000);
+        }, TIMER_DURATION_MS);
     }
 
     @Override
@@ -436,7 +438,7 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
             public void run() {
                 context.getDaState().doActionTimerDeplacer(context);
             }
-        }, 4000);
+        }, TIMER_DURATION_MS);
     }
 
 }
