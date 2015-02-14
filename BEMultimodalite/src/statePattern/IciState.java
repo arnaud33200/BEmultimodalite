@@ -17,7 +17,6 @@ public class IciState implements State {
 
     @Override
     public void doActionDessinForme(Context context) {
-      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -27,7 +26,6 @@ public class IciState implements State {
 
     @Override
     public void doActionVoixDeCetteCouleur(Context context) {
-      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

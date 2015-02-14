@@ -64,6 +64,7 @@ public class DeCetteCouleurState implements State{
     
     @Override
     public void doActionTimerDeCetteCouleur(Context context) {
+        context.dessinerForme();
         context.setState(new InitState());
     }
     
