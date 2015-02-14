@@ -5,15 +5,18 @@
  */
 package statePattern;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  *
  * @author ladoucar
  */
 public class WaitState implements State {
-    
-    public String toString(){
-      return "WAIT STATE";
-   }
+
+    public String toString() {
+        return "WAIT STATE";
+    }
 
     @Override
     public void doActionDessinForme(Context context) {
@@ -25,6 +28,7 @@ public class WaitState implements State {
 
     @Override
     public void doActionVoixDeCetteCouleur(Context context) {
+        context.startTimerDeCetteCouleur();
         context.setState(new DeCetteCouleurState());
     }
 
@@ -52,15 +56,23 @@ public class WaitState implements State {
     public void doActionTimerWait(Context context) {
         context.dessinerForme();
         context.setState(new InitState());
-        
     }
-    
+
     @Override
     public void doActionInfoReceived(Context context) {
     }
+
     @Override
     public void doActionVoixDeplacer(Context context) {
-        
+
+    }
+
+    @Override
+    public void doActionTimerDeCetteCouleur(Context context) {
+    }
+    
+    @Override
+    public void doActionTimerDeplacer(Context context) {
     }
 
 }

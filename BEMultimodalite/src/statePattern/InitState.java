@@ -11,13 +11,14 @@ package statePattern;
  */
 public class InitState implements State {
 
-   public String toString(){
-      return "INIT STATE";
-   }
+    public String toString() {
+        return "INIT STATE";
+    }
 
     @Override
     public void doActionDessinForme(Context context) {
         context.updateForme();
+        context.startTimerCreer();
         context.setState(new CreerState());
     }
 
@@ -35,11 +36,10 @@ public class InitState implements State {
 
     @Override
     public void doActionClick(Context context) {
-        //context.setState(new DeplacerState());
     }
 
     @Override
-    public void doActionSelection(Context context) { 
+    public void doActionSelection(Context context) {
     }
 
     @Override
@@ -57,9 +57,19 @@ public class InitState implements State {
     @Override
     public void doActionInfoReceived(Context context) {
     }
-@Override
+
+    @Override
     public void doActionVoixDeplacer(Context context) {
+        context.startTimerDeplacer();
         context.setState(new DeplacerState());
+    }
+
+    @Override
+    public void doActionTimerDeCetteCouleur(Context context) {
+    }
+    
+    @Override
+    public void doActionTimerDeplacer(Context context) {
     }
 
 }

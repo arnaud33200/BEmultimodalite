@@ -28,11 +28,13 @@ public class CreerState implements State {
 
     @Override
     public void doActionVoixDeCetteCouleur(Context context) {
+        context.startTimerDeCetteCouleur();
         context.setState(new DeCetteCouleurState());
     }
 
     @Override
     public void doActionVoixIci(Context context) {
+        context.startTimerIci();
         context.setState(new IciState());
     }
 
@@ -53,7 +55,6 @@ public class CreerState implements State {
 
     @Override
     public void doActionTimerIci(Context context) {
-        context.setState(new IciState());
     }
 
     @Override
@@ -68,6 +69,14 @@ public class CreerState implements State {
     @Override
     public void doActionVoixDeplacer(Context context) {
         
+    }
+
+    @Override
+    public void doActionTimerDeCetteCouleur(Context context) {
+    }
+
+    @Override
+    public void doActionTimerDeplacer(Context context) {
     }
 
 }

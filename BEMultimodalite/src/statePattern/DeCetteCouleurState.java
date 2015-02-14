@@ -57,9 +57,19 @@ public class DeCetteCouleurState implements State{
     @Override
     public void doActionInfoReceived(Context context) {
     }
+    
     @Override
-    public void doActionVoixDeplacer(Context context) {
-        
+    public void doActionVoixDeplacer(Context context) {   
     }
+    
+    @Override
+    public void doActionTimerDeCetteCouleur(Context context) {
+        context.setState(new InitState());
+    }
+    
+    @Override
+    public void doActionTimerDeplacer(Context context) {
+    }
+    
 
 }

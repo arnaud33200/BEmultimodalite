@@ -65,5 +65,13 @@ public class FormeSelectionneState implements State{
     public void doActionVoixDeplacer(Context context) {
         
     }
+    
+    @Override
+    public void doActionTimerDeCetteCouleur(Context context) {
+    }
+    
+    @Override
+    public void doActionTimerDeplacer(Context context) {
+    }
 
 }

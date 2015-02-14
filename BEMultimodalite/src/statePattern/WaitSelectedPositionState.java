@@ -9,11 +9,11 @@ package statePattern;
  *
  * @author Vincent
  */
-public class WaitSelectedPositionState implements State{
-    
-    public String toString(){
-      return "WAIT POSITION STATE";
-   }
+public class WaitSelectedPositionState implements State {
+
+    public String toString() {
+        return "WAIT POSITION STATE";
+    }
 
     @Override
     public void doActionDessinForme(Context context) {
@@ -60,5 +60,13 @@ public class WaitSelectedPositionState implements State{
         context.deplacerForme();
         context.setState(new InitState());
     }
+
+    @Override
+    public void doActionTimerDeCetteCouleur(Context context) {
+    }
     
+    @Override
+    public void doActionTimerDeplacer(Context context) {
+    }
+
 }

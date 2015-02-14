@@ -37,6 +37,7 @@ public class IciState implements State {
     @Override
     public void doActionClick(Context context) {
         context.updatePosition();
+        context.startTimerWait();
         context.setState(new WaitState());
     }
 
@@ -60,9 +61,18 @@ public class IciState implements State {
     @Override
     public void doActionInfoReceived(Context context) {
     }
+    
     @Override
     public void doActionVoixDeplacer(Context context) {
         
+    }
+    
+    @Override
+    public void doActionTimerDeCetteCouleur(Context context) {
+    }
+    
+    @Override
+    public void doActionTimerDeplacer(Context context) {
     }
 
     

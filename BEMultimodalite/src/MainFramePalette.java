@@ -5,6 +5,8 @@ import fr.dgac.ivy.IvyClient;
 import fr.dgac.ivy.IvyException;
 import fr.dgac.ivy.IvyMessageListener;
 import java.awt.Event;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import statePattern.Context;
@@ -46,6 +48,12 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
 
     private int deplacementX = 0;
     private int deplacementY = 0;
+
+    private Timer timerWait;
+    private Timer timerCreer;
+    private Timer timerIci;
+    private Timer timerDeCetteCouleur;
+    private Timer timerDeplacer;
 
     public MainFramePalette() throws IvyException {
         initComponents();
@@ -266,11 +274,6 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
     }
 
     @Override
-    public void startTimerIci() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void updateCouleur() {
         switch (context.getDaState().toString()) {
             case "DE CETTE COULEUR STATE":
@@ -379,6 +382,61 @@ public class MainFramePalette extends javax.swing.JFrame implements Context {
         deplacementY = 0;
         selectedFormX = 0;
         selectedFormY = 0;
+    }
+
+    @Override
+    public void startTimerWait() {
+        timerWait = new Timer();
+        timerWait.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                context.getDaState().doActionTimerWait(context);
+            }
+        }, 4000);
+    }
+
+    @Override
+    public void startTimerCreer() {
+        timerCreer = new Timer();
+        timerCreer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                context.getDaState().doActionTimerCreer(context);
+            }
+        }, 4000);
+    }
+
+    @Override
+    public void startTimerIci() {
+        timerIci = new Timer();
+        timerIci.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                context.getDaState().doActionTimerIci(context);
+            }
+        }, 4000);
+    }
+
+    @Override
+    public void startTimerDeCetteCouleur() {
+        timerDeCetteCouleur = new Timer();
+        timerDeCetteCouleur.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                context.getDaState().doActionTimerDeCetteCouleur(context);
+            }
+        }, 4000);
+    }
+
+    @Override
+    public void startTimerDeplacer() {
+        timerDeplacer = new Timer();
+        timerDeplacer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                context.getDaState().doActionTimerDeplacer(context);
+            }
+        }, 4000);
     }
 
 }

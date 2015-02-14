@@ -68,5 +68,14 @@ public class DeplacerState implements State {
     public void doActionVoixDeplacer(Context context) {
         
     }
+    
+    @Override
+    public void doActionTimerDeCetteCouleur(Context context) {
+    }
+    
+    @Override
+    public void doActionTimerDeplacer(Context context) {
+        context.setState(new InitState());
+    }
 
 }

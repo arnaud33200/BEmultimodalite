@@ -13,7 +13,12 @@ public interface Context {
    
    public void setState(State state);
    public State getDaState();
+   
+   public void startTimerWait();
+   public void startTimerCreer();
    public void startTimerIci();
+   public void startTimerDeCetteCouleur();
+   public void startTimerDeplacer();
 
     public void updateCouleur();
 

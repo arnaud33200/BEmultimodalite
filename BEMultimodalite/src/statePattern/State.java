@@ -17,8 +17,11 @@ public interface State {
    public void doActionVoixDeplacer(Context context);
    public void doActionClick(Context context);
    public void doActionSelection(Context context);
+   public void doActionInfoReceived(Context context);
+   
    public void doActionTimerCreer(Context context);
    public void doActionTimerIci(Context context);
    public void doActionTimerWait(Context context);
-   public void doActionInfoReceived(Context context);
+   public void doActionTimerDeCetteCouleur(Context context);
+   public void doActionTimerDeplacer(Context context);
 }
