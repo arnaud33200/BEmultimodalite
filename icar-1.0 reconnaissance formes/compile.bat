@@ -1,1 +1,0 @@
-javac -sourcepath bin -cp icar-1.0.jar -d $bin src/IcarClient.java 
